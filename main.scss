@@ -1,11 +1,13 @@
-/* Variables */
+/* =========================================
+   Variables & Theme Setup
+   ========================================= */
 :root {
   --primary-color: #6c5ce7;
   --primary-hover: #5649c0;
   
   --bg-color: #1e272e;       
   --task-bg: #2d3436;      
-  --text-color: #ffffff;   /* تم تعديل اللون الافتراضي ليكون أبيض للوضع الداكن */
+  --text-color: #ffffff;   
   
   --danger-color: #ff7675;
   --shadow: 0 4px 15px rgba(0, 0, 0, 0.5); 
@@ -26,6 +28,9 @@ body.light-mode {
   --input-text: #2d3436;
 }
 
+/* =========================================
+   Global Resets
+   ========================================= */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -51,46 +56,47 @@ body {
   padding: 0 20px;
 }
 
-/* --- Header Fix --- */
+/* =========================================
+   Header Section
+   ========================================= */
 header {
   width: 100%;
-  margin-bottom: 20px; /* بدلاً من fixed */
+  margin-bottom: 20px;
   display: flex;
   justify-content: center;
-}
 
-.header-actions {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-}
+  .header-actions {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
 
-h1 {
-  color: var(--primary-color);
-  font-weight: 600;
-  margin: 0;
+    h1 {
+      color: var(--primary-color);
+      font-weight: 600;
+      margin: 0;
+    }
+  }
 }
 
 /* --- Dark/Light Toggle --- */
 .lightandDArk {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 70px;
-    height: 34px;
-    background-color: var(--bg-primary);
-    border-radius: 30px;
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-    border: 2px solid var(--accent-color);
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
-}
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 70px;
+  height: 34px;
+  background-color: var(--bg-primary);
+  border-radius: 30px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid var(--accent-color);
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
 
-.lightandDArk::before {
+  &::before {
     position: absolute;
-    background-color: var(--text-color); /* يتغير حسب الوضع */
+    background-color: var(--text-color);
     content: "";
     width: 50%;
     height: 100%;
@@ -99,14 +105,14 @@ h1 {
     border-radius: 30px;
     z-index: 1;
     transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55), background-color 0.3s;
-}
+  }
 
-.lightandDArk.active-light::before {
+  &.active-light::before {
     transform: translateX(100%);
     background-color: #ff9900;
-}
+  }
 
-.lightandDArk .icon {
+  .icon {
     width: 50%;
     text-align: center;
     font-size: 18px;
@@ -114,168 +120,202 @@ h1 {
     transition: color 0.3s;
     user-select: none;
     line-height: 34px;
-    position: relative; /* مهم جداً للظهور فوق الدائرة */
+    position: relative;
+  }
 }
 
-/* --- App Container --- */
+/* =========================================
+   App Container
+   ========================================= */
 .todo-app {
   background: var(--task-bg);
   padding: 2rem;
   border-radius: 12px;
   box-shadow: var(--shadow);
   transition: background 0.3s;
+
+  /* --- Input Section (The Fix) --- */
+  .input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+
+    /* Mobile Styles: Stack Buttons & Fix Height */
+    @media (max-width: 480px) {
+      flex-direction: column;
+      
+      input[type="text"] {
+        width: 100%;
+      }
+
+      button#addBtn, button#sort {
+        width: 100%;
+        margin-top: 5px;
+        padding: 12px 15px; 
+      }
+    }
+
+    input[type="text"] {
+      flex-grow: 1;
+      padding: 12px 15px;
+      border: 2px solid #dfe6e9;
+      border-radius: 8px;
+      font-family: inherit;
+      outline: none;
+      transition: 0.3s;
+      background-color: var(--bg-color);
+      color: var(--input-text);
+
+      &:focus {
+        border-color: var(--primary-color);
+      }
+    }
+
+    button#addBtn, button#sort {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 0 15px; /* Default for Desktop */
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s;
+      white-space: nowrap;
+
+      &:hover {
+        background-color: var(--primary-hover);
+      }
+    }
+  }
+
+  /* --- Task List --- */
+  .tasks-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 25px;
+
+    .task-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: var(--bg-color);
+      border: 1px solid var(--bg-primary);
+      padding: 12px 15px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      color: var(--text-color);
+      cursor: grab; /* Mouse Icon for dragging */
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 10px rgba(0,0,0,0.08);
+      }
+
+      /* 🔥 Dragging Style: Active state when holding element */
+      &.dragging {
+        opacity: 0.5;
+        background-color: var(--bg-primary);
+        border: 2px dashed var(--primary-color);
+        transform: scale(1.02);
+        cursor: grabbing;
+      }
+
+      .task-content {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-grow: 1;
+        cursor: pointer;
+        overflow: hidden;
+
+        .checkbox {
+          width: 18px;
+          height: 18px;
+          cursor: pointer;
+          accent-color: var(--primary-color);
+          flex-shrink: 0;
+        }
+
+        .task-text {
+          font-size: 16px;
+          transition: 0.3s;
+          word-break: break-word;
+        }
+      }
+
+      /* Done State */
+      &.completed {
+        opacity: 0.7;
+
+        .task-text {
+          text-decoration: line-through;
+          opacity: 0.6;
+        }
+      }
+
+      /* Action Buttons */
+      .edit-btn, .delete-btn {
+        background-color: transparent;
+        border: none;
+        font-size: 18px;
+        cursor: pointer;
+        padding: 5px;
+        margin-left: 5px;
+        border-radius: 5px;
+        transition: 0.2s;
+      }
+
+      .edit-btn {
+        color: var(--primary-color);
+        &:hover { background-color: rgba(108, 92, 231, 0.1); }
+      }
+
+      .delete-btn {
+        color: var(--danger-color);
+        &:hover { background-color: rgba(255, 118, 117, 0.1); }
+      }
+
+      /* Edit Input */
+      .edit-input {
+        font-family: inherit;
+        font-size: 16px;
+        padding: 5px;
+        border: 1px solid var(--primary-color);
+        border-radius: 4px;
+        width: 100%;
+        outline: none;
+        color: var(--text-color);
+        background: transparent;
+      }
+    }
+  }
+
+  /* --- Stats Footer --- */
+  .stats {
+    border-top: 1px solid var(--bg-primary);
+    padding-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--accent-color);
+    font-size: 14px;
+
+    .doneandpersentage {
+      display: flex;
+      gap: 15px;
+    }
+
+    strong {
+      color: var(--primary-color);
+    }
+  }
 }
 
-/* Input Section */
-.input-group {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 25px;
-}
-
-input[type="text"] {
-  flex-grow: 1;
-  padding: 12px 15px;
-  border: 2px solid #dfe6e9;
-  border-radius: 8px;
-  font-family: inherit;
-  outline: none;
-  transition: 0.3s;
-  background-color: var(--bg-color);
-  color: var(--input-text);
-}
-
-input[type="text"]:focus {
-  border-color: var(--primary-color);
-}
-
-button#addBtn, button#sort {
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  padding: 0 15px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: 0.3s;
-  white-space: nowrap;
-}
-
-button#addBtn:hover, button#sort:hover {
-  background-color: var(--primary-hover);
-}
-
-/* Task List */
-.tasks-container {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-bottom: 25px;
-}
-
-.task-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: var(--bg-color); /* لون الخلفية حسب الثيم */
-  border: 1px solid var(--bg-primary);
-  padding: 12px 15px;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-  color: var(--text-color);
-}
-
-.task-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 10px rgba(0,0,0,0.08);
-}
-
-.task-content {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-grow: 1;
-  cursor: pointer;
-  overflow: hidden; /* لمنع النص الطويل من كسر التنسيق */
-}
-
-.checkbox {
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-  accent-color: var(--primary-color);
-  flex-shrink: 0;
-}
-
-.task-text {
-  font-size: 16px;
-  transition: 0.3s;
-  word-break: break-word;
-}
-
-/* Done State */
-.task-item.completed {
-  opacity: 0.7;
-}
-
-.task-item.completed .task-text {
-  text-decoration: line-through;
-  opacity: 0.6;
-}
-
-/* Buttons inside Task */
-.edit-btn, .delete-btn {
-  background-color: transparent;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
-  padding: 5px;
-  margin-left: 5px;
-  border-radius: 5px;
-  transition: 0.2s;
-}
-
-.edit-btn { color: var(--primary-color); }
-.edit-btn:hover { background-color: rgba(108, 92, 231, 0.1); }
-
-.delete-btn { color: var(--danger-color); }
-.delete-btn:hover { background-color: rgba(255, 118, 117, 0.1); }
-
-/* Edit Input */
-.edit-input {
-  font-family: inherit;
-  font-size: 16px;
-  padding: 5px;
-  border: 1px solid var(--primary-color);
-  border-radius: 4px;
-  width: 100%;
-  outline: none;
-  color: var(--text-color);
-  background: transparent; /* خلفية شفافة */
-}
-
-/* Stats Footer */
-.stats {
-  border-top: 1px solid var(--bg-primary);
-  padding-top: 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: var(--accent-color);
-  font-size: 14px;
-}
-
-.doneandpersentage {
-  display: flex;
-  gap: 15px;
-}
-
-.stats strong {
-  color: var(--primary-color);
-}
-
-/* Alert Box */
+/* =========================================
+   Alert Box (Toast)
+   ========================================= */
 .alertMSG {
   display: flex;
   width: 90%;
@@ -283,7 +323,7 @@ button#addBtn:hover, button#sort:hover {
   align-items: center;
   justify-content: space-between;
   padding: 15px 20px;
-  background: var(--danger-color); /* لون أحمر للتنبيه */
+  background: var(--danger-color);
   border-radius: 10px;
   position: fixed;
   top: 20px;
@@ -292,13 +332,13 @@ button#addBtn:hover, button#sort:hover {
   color: white;
   z-index: 1000;
   box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
 
-.buttonAlert {
-  background: transparent;
-  border: none;
-  color: white;
-  font-size: 20px;
-  cursor: pointer;
-  padding: 0 5px;
+  .buttonAlert {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0 5px;
+  }
 }

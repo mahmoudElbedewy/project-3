@@ -39,6 +39,7 @@ window.onload = function () {
   // Sortable Drag & Drop
   Sortable.create(tasksContainer, {
     animation: 150,
+    ghostClass: 'dragging',
     onEnd: function (evt) {
       let item = tasks[evt.oldIndex];
       tasks.splice(evt.oldIndex, 1);
@@ -269,6 +270,6 @@ function showAlert(message) {
     // Manual remove
     button.onclick = () => {
         clearTimeout(time);
-        div.remove();
+      div.remove();
     }
 }

@@ -1,12 +1,13 @@
 @charset "UTF-8";
-/* Variables */
+/* =========================================
+   Variables & Theme Setup
+   ========================================= */
 :root {
   --primary-color: #6c5ce7;
   --primary-hover: #5649c0;
   --bg-color: #1e272e;
   --task-bg: #2d3436;
   --text-color: #ffffff;
-  /* تم تعديل اللون الافتراضي ليكون أبيض للوضع الداكن */
   --danger-color: #ff7675;
   --shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
   --bg-primary: #485460;
@@ -24,6 +25,9 @@ body.light-mode {
   --input-text: #2d3436;
 }
 
+/* =========================================
+   Global Resets
+   ========================================= */
 * {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -60,11 +64,12 @@ body {
   padding: 0 20px;
 }
 
-/* --- Header Fix --- */
+/* =========================================
+   Header Section
+   ========================================= */
 header {
   width: 100%;
   margin-bottom: 20px;
-  /* بدلاً من fixed */
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -73,7 +78,7 @@ header {
           justify-content: center;
 }
 
-.header-actions {
+header .header-actions {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -86,7 +91,7 @@ header {
           align-items: center;
 }
 
-h1 {
+header .header-actions h1 {
   color: var(--primary-color);
   font-weight: 600;
   margin: 0;
@@ -118,7 +123,6 @@ h1 {
 .lightandDArk::before {
   position: absolute;
   background-color: var(--text-color);
-  /* يتغير حسب الوضع */
   content: "";
   width: 50%;
   height: 100%;
@@ -151,10 +155,11 @@ h1 {
           user-select: none;
   line-height: 34px;
   position: relative;
-  /* مهم جداً للظهور فوق الدائرة */
 }
 
-/* --- App Container --- */
+/* =========================================
+   App Container
+   ========================================= */
 .todo-app {
   background: var(--task-bg);
   padding: 2rem;
@@ -163,18 +168,38 @@ h1 {
           box-shadow: var(--shadow);
   -webkit-transition: background 0.3s;
   transition: background 0.3s;
+  /* --- Input Section (The Fix) --- */
+  /* --- Task List --- */
+  /* --- Stats Footer --- */
 }
 
-/* Input Section */
-.input-group {
+.todo-app .input-group {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   gap: 10px;
   margin-bottom: 25px;
+  /* Mobile Styles: Stack Buttons & Fix Height */
 }
 
-input[type="text"] {
+@media (max-width: 480px) {
+  .todo-app .input-group {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .todo-app .input-group input[type="text"] {
+    width: 100%;
+  }
+  .todo-app .input-group button#addBtn, .todo-app .input-group button#sort {
+    width: 100%;
+    margin-top: 5px;
+    padding: 12px 15px;
+  }
+}
+
+.todo-app .input-group input[type="text"] {
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
@@ -189,15 +214,16 @@ input[type="text"] {
   color: var(--input-text);
 }
 
-input[type="text"]:focus {
+.todo-app .input-group input[type="text"]:focus {
   border-color: var(--primary-color);
 }
 
-button#addBtn, button#sort {
+.todo-app .input-group button#addBtn, .todo-app .input-group button#sort {
   background-color: var(--primary-color);
   color: white;
   border: none;
   padding: 0 15px;
+  /* Default for Desktop */
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
@@ -206,12 +232,11 @@ button#addBtn, button#sort {
   white-space: nowrap;
 }
 
-button#addBtn:hover, button#sort:hover {
+.todo-app .input-group button#addBtn:hover, .todo-app .input-group button#sort:hover {
   background-color: var(--primary-hover);
 }
 
-/* Task List */
-.tasks-container {
+.todo-app .tasks-container {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -223,7 +248,7 @@ button#addBtn:hover, button#sort:hover {
   margin-bottom: 25px;
 }
 
-.task-item {
+.todo-app .tasks-container .task-item {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -234,7 +259,6 @@ button#addBtn:hover, button#sort:hover {
       -ms-flex-pack: justify;
           justify-content: space-between;
   background-color: var(--bg-color);
-  /* لون الخلفية حسب الثيم */
   border: 1px solid var(--bg-primary);
   padding: 12px 15px;
   border-radius: 8px;
@@ -243,16 +267,33 @@ button#addBtn:hover, button#sort:hover {
   -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
           box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   color: var(--text-color);
+  cursor: -webkit-grab;
+  cursor: grab;
+  /* Mouse Icon for dragging */
+  /* 🔥 Dragging Style: Active state when holding element */
+  /* Done State */
+  /* Action Buttons */
+  /* Edit Input */
 }
 
-.task-item:hover {
+.todo-app .tasks-container .task-item:hover {
   -webkit-transform: translateY(-2px);
           transform: translateY(-2px);
   -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.08);
           box-shadow: 0 5px 10px rgba(0, 0, 0, 0.08);
 }
 
-.task-content {
+.todo-app .tasks-container .task-item.dragging {
+  opacity: 0.5;
+  background-color: var(--bg-primary);
+  border: 2px dashed var(--primary-color);
+  -webkit-transform: scale(1.02);
+          transform: scale(1.02);
+  cursor: -webkit-grabbing;
+  cursor: grabbing;
+}
+
+.todo-app .tasks-container .task-item .task-content {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -265,10 +306,9 @@ button#addBtn:hover, button#sort:hover {
           flex-grow: 1;
   cursor: pointer;
   overflow: hidden;
-  /* لمنع النص الطويل من كسر التنسيق */
 }
 
-.checkbox {
+.todo-app .tasks-container .task-item .task-content .checkbox {
   width: 18px;
   height: 18px;
   cursor: pointer;
@@ -277,25 +317,23 @@ button#addBtn:hover, button#sort:hover {
       flex-shrink: 0;
 }
 
-.task-text {
+.todo-app .tasks-container .task-item .task-content .task-text {
   font-size: 16px;
   -webkit-transition: 0.3s;
   transition: 0.3s;
   word-break: break-word;
 }
 
-/* Done State */
-.task-item.completed {
+.todo-app .tasks-container .task-item.completed {
   opacity: 0.7;
 }
 
-.task-item.completed .task-text {
+.todo-app .tasks-container .task-item.completed .task-text {
   text-decoration: line-through;
   opacity: 0.6;
 }
 
-/* Buttons inside Task */
-.edit-btn, .delete-btn {
+.todo-app .tasks-container .task-item .edit-btn, .todo-app .tasks-container .task-item .delete-btn {
   background-color: transparent;
   border: none;
   font-size: 18px;
@@ -307,24 +345,23 @@ button#addBtn:hover, button#sort:hover {
   transition: 0.2s;
 }
 
-.edit-btn {
+.todo-app .tasks-container .task-item .edit-btn {
   color: var(--primary-color);
 }
 
-.edit-btn:hover {
+.todo-app .tasks-container .task-item .edit-btn:hover {
   background-color: rgba(108, 92, 231, 0.1);
 }
 
-.delete-btn {
+.todo-app .tasks-container .task-item .delete-btn {
   color: var(--danger-color);
 }
 
-.delete-btn:hover {
+.todo-app .tasks-container .task-item .delete-btn:hover {
   background-color: rgba(255, 118, 117, 0.1);
 }
 
-/* Edit Input */
-.edit-input {
+.todo-app .tasks-container .task-item .edit-input {
   font-family: inherit;
   font-size: 16px;
   padding: 5px;
@@ -334,11 +371,9 @@ button#addBtn:hover, button#sort:hover {
   outline: none;
   color: var(--text-color);
   background: transparent;
-  /* خلفية شفافة */
 }
 
-/* Stats Footer */
-.stats {
+.todo-app .stats {
   border-top: 1px solid var(--bg-primary);
   padding-top: 15px;
   display: -webkit-box;
@@ -354,18 +389,20 @@ button#addBtn:hover, button#sort:hover {
   font-size: 14px;
 }
 
-.doneandpersentage {
+.todo-app .stats .doneandpersentage {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   gap: 15px;
 }
 
-.stats strong {
+.todo-app .stats strong {
   color: var(--primary-color);
 }
 
-/* Alert Box */
+/* =========================================
+   Alert Box (Toast)
+   ========================================= */
 .alertMSG {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -380,7 +417,6 @@ button#addBtn:hover, button#sort:hover {
           justify-content: space-between;
   padding: 15px 20px;
   background: var(--danger-color);
-  /* لون أحمر للتنبيه */
   border-radius: 10px;
   position: fixed;
   top: 20px;
@@ -393,7 +429,7 @@ button#addBtn:hover, button#sort:hover {
           box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-.buttonAlert {
+.alertMSG .buttonAlert {
   background: transparent;
   border: none;
   color: white;
