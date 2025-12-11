@@ -168,7 +168,7 @@ header .header-actions h1 {
           box-shadow: var(--shadow);
   -webkit-transition: background 0.3s;
   transition: background 0.3s;
-  /* --- Input Section (The Fix) --- */
+  /* --- Input Section --- */
   /* --- Task List --- */
   /* --- Stats Footer --- */
 }
@@ -179,24 +179,10 @@ header .header-actions h1 {
   display: flex;
   gap: 10px;
   margin-bottom: 25px;
-  /* Mobile Styles: Stack Buttons & Fix Height */
-}
-
-@media (max-width: 480px) {
-  .todo-app .input-group {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-  }
-  .todo-app .input-group input[type="text"] {
-    width: 100%;
-  }
-  .todo-app .input-group button#addBtn, .todo-app .input-group button#sort {
-    width: 100%;
-    margin-top: 5px;
-    padding: 12px 15px;
-  }
+  /* Default Styles (Desktop) */
+  /* Mobile Styles (Placed AFTER default styles to ensure override)
+       -----------------------------------------------------------
+    */
 }
 
 .todo-app .input-group input[type="text"] {
@@ -223,7 +209,6 @@ header .header-actions h1 {
   color: white;
   border: none;
   padding: 0 15px;
-  /* Default for Desktop */
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
@@ -234,6 +219,26 @@ header .header-actions h1 {
 
 .todo-app .input-group button#addBtn:hover, .todo-app .input-group button#sort:hover {
   background-color: var(--primary-hover);
+}
+
+@media (max-width: 480px) {
+  .todo-app .input-group {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    /* Stack elements vertically */
+  }
+  .todo-app .input-group input[type="text"] {
+    width: 100%;
+  }
+  .todo-app .input-group button#addBtn, .todo-app .input-group button#sort {
+    width: 100%;
+    /* Full width */
+    padding: 12px 15px;
+    /* Increase height to match input */
+    /* margin-top is handled by the parent gap: 10px */
+  }
 }
 
 .todo-app .tasks-container {
@@ -269,7 +274,6 @@ header .header-actions h1 {
   color: var(--text-color);
   cursor: -webkit-grab;
   cursor: grab;
-  /* Mouse Icon for dragging */
   /* 🔥 Dragging Style: Active state when holding element */
   /* Done State */
   /* Action Buttons */
